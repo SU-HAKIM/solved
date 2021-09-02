@@ -51,7 +51,7 @@ app.post('/login', async (req, res, next) => {
 
 app.get('/login', (req, res, next) => {
     if (res.headersSent) {
-        return next('header all ready sent')
+        return next('header already sent')
     }
     res.send("<form action='/login' method='POST'><input type='email' name='email'/><input type='password' name='password'/><input type='submit' value='send'/></form>")
 })
@@ -59,16 +59,18 @@ app.get('/login', (req, res, next) => {
 
 app.get('/todo', verify, (req, res, next) => {
     if (res.headersSent) {
-        return next('header all ready sent')
+        return next('header already sent')
     }
     res.send("<form action='/todo' method='POST'><input type='text' name='title'/><textarea name='description'></textarea><input type='submit' value='send'/></form>")
 })
 
-app.post('/todo', async (req, res, next) => {
+app.post('/todo', verify, async (req, res, next) => {
     let data = req.body;
     try {
+        data.user = req.user._id
         let todo = new Todo(data);
         let result = await todo.save()
+        console.log(result)
         res.send(result);
     } catch (error) {
         next(error)
