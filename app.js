@@ -64,6 +64,20 @@ app.get('/todo', verify, (req, res, next) => {
     res.send("<form action='/todo' method='POST'><input type='text' name='title'/><textarea name='description'></textarea><input type='submit' value='send'/></form>")
 })
 
+
+app.post('/todo/:id', async (req, res, next) => {
+    try {
+        let todo = await Todo.findOne({ _id: req.params.id }).populate('user')
+        if (todo) {
+            res.send(todo)
+        } else {
+            next('todo not found')
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
 app.post('/todo', verify, async (req, res, next) => {
     let data = req.body;
     try {
