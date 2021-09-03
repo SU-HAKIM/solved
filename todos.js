@@ -10,6 +10,24 @@ const todoSchema = new mongoose.Schema({
     }
 })
 
+todoSchema.methods = {
+    findAll: function () {
+        return mongoose.model('Todo').findOne({ title: 'todo' })
+    }
+}
+
+todoSchema.statics = {
+    findJs: function () {
+        return this.find({ title: 'js' })
+    }
+}
+
+todoSchema.query = {
+    skipThree: function () {
+        return this.skip(3);
+    }
+}
+
 const Todo = mongoose.model('Todo', todoSchema);
 
 module.exports = Todo;

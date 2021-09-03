@@ -93,6 +93,8 @@ app.post('/todo', verify, async (req, res, next) => {
     try {
         data.user = req.user._id
         let todo = new Todo(data);
+        // console.log(await todo.findAll())
+        console.log(await Todo.findJs().skipThree());
         let result = await todo.save()
         let addTodo = await User.updateOne({ _id: req.user._id }, { $push: { todos: result._id } })
         console.log(addTodo)
@@ -101,6 +103,7 @@ app.post('/todo', verify, async (req, res, next) => {
         next(error)
     }
 })
+
 
 
 app.get('/user', (req, res) => {
