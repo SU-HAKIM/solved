@@ -84,7 +84,8 @@ app.post('/todo', verify, async (req, res, next) => {
         data.user = req.user._id
         let todo = new Todo(data);
         let result = await todo.save()
-        console.log(result)
+        let addTodo = await User.updateOne({ _id: req.user._id }, { $push: { todos: result._id } })
+        console.log(addTodo)
         res.send(result);
     } catch (error) {
         next(error)

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Todo = require('./todos')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -13,6 +13,9 @@ const userSchema = new mongoose.Schema({
                 type: String
             }
         }
+    ],
+    todos: [
+        { type: mongoose.Types.ObjectId, ref: Todo },
     ]
 })
 

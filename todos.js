@@ -6,7 +6,7 @@ const todoSchema = new mongoose.Schema({
     description: String,
     user: {
         type: mongoose.Types.ObjectId,
-        ref: User
+        ref: "User"
     }
 })
 
