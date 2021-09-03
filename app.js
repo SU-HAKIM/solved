@@ -65,6 +65,16 @@ app.get('/todo', verify, (req, res, next) => {
 })
 
 
+app.get('/user/all', async (req, res, next) => {
+    try {
+        let users = await User.find().populate('todos')
+        res.send(users)
+    } catch (error) {
+        next(error)
+    }
+})
+
+
 app.post('/todo/:id', async (req, res, next) => {
     try {
         let todo = await Todo.findOne({ _id: req.params.id }).populate('user')
